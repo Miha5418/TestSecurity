@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form method="post">
+        <h3>Конвертер</h3>
+        <p>
+        <select class="ten" name="valuteFrom">
+            <option th:each="valute : ${valutes}"
+                    th:value="${valute.getCharCode()}"
+                    th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+            </option>
+        </select>
+
+        <select class="ten" name="valuteTo">
+            <option th:each="valute : ${valutes}"
+                    th:value="${valute.getCharCode()}"
+                    th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+            </option>
+        </select>
+            <p>
+            <button class="ten" type="submit">Конвертировать</button>
+            </p>
+        </p>
+    </form>
+</div>
+
+</body>
+</html>
+
+<style>
+    body {
+        padding: 30px;
+        text-align: center;
+        background-color: #f3f3f3;;
+    }
+
+    .ten {
+        box-shadow: inset 0px -2px 4px 0px #ccc;
+    }
+</style>

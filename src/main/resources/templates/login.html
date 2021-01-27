@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login Customer</title>
+</head>
+<body class="body">
+<div>
+    <form method="post" action="/auth/login">
+        <h2>Конвертер валют</h2>
+        <p>
+            <label for="username"></label>
+            <input type="text" id="username" name="username" placeholder="Логин" required>
+        </p>
+        <p>
+            <label for="password"></label>
+            <input type="password" id="password" name="password" placeholder="Пароль" required>
+        </p>
+            <button class="ten" type="submit">Войти</button>
+    </form>
+    <p>
+        <a href="registration.html">
+            <button class="ten">
+                Регистрация
+            </button>
+        </a>
+    </p>
+</div>
+</body>
+</html>
+<style>
+    body {
+        padding: 30px;
+        text-align: center;
+        background-color: #f3f3f3;;
+    }
+
+    .ten {
+        box-shadow: inset 0px -2px 4px 0px #ccc;
+    }
+    </style>
