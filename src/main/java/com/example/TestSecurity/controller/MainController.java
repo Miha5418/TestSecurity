@@ -1,5 +1,6 @@
 package com.example.TestSecurity.controller;
 
+import com.example.TestSecurity.converter.Choice;
 import com.example.TestSecurity.model.Valute;
 import com.example.TestSecurity.repos.ValuteRepo;
 import com.example.TestSecurity.service.XMLService;
@@ -48,11 +49,20 @@ public class MainController {
     @PostMapping
     public String choiceValute(@RequestParam String valuteFrom,
                                @RequestParam String valuteTo,
+                               @RequestParam Integer quantity,
                                Model model){
+        List<Valute> valutes;
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        valutes = valuteRepo.findByDate(date);
 
-        Valute valuteFromDb = valuteRepo.findByCharCode(valuteFrom);
-        Valute valuteToDb = valuteRepo.findByCharCode(valuteTo);
+        Valute valuteFromDb = valuteRepo.findByCharCodeAndDate(valuteFrom, date);
+        Valute valuteToDb = valuteRepo.findByCharCodeAndDate(valuteTo, date);
+        System.out.println(quantity);
+        Double result = Choice.converted(valuteFromDb, valuteToDb, quantity);
 
+        Collections.sort(valutes, Comparator.comparing(Valute::getName));
+        model.addAttribute("valutes", valutes);
+        model.addAttribute("result", result);
 
         return "choiceValute";
     }

@@ -5,30 +5,43 @@
     <title>Title</title>
 </head>
 <body>
-<div>
+<div class="first">
     <form method="post">
         <h3>Конвертер</h3>
+        <table width="60%" cellspacing="20" align="center"
+               bordercolor="#000" border="0">
+            <tr>
+                <td width="25%">
+                    <select class="ten" name="valuteFrom">
+                        <option th:each="valute : ${valutes}"
+                                th:value="${valute.getCharCode()}"
+                                th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+                        </option>
+                    </select>
+                </td>
+                <td width="25%">
+                    <select class="ten" name="valuteTo">
+                        <option th:each="valute : ${valutes}"
+                                th:value="${valute.getCharCode()}"
+                                th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="25%">
+                    <input type="text" name="quantity">
+                </td>
+                <td width="25%" bordercolor="#000">
+                    <output th:text="${result}"></output>
+                </td>
+            </tr>
+        </table>
         <p>
-        <select class="ten" name="valuteFrom">
-            <option th:each="valute : ${valutes}"
-                    th:value="${valute.getCharCode()}"
-                    th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
-            </option>
-        </select>
-
-        <select class="ten" name="valuteTo">
-            <option th:each="valute : ${valutes}"
-                    th:value="${valute.getCharCode()}"
-                    th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
-            </option>
-        </select>
-            <p>
             <button class="ten" type="submit">Конвертировать</button>
-            </p>
         </p>
     </form>
 </div>
-
 </body>
 </html>
 
@@ -36,10 +49,65 @@
     body {
         padding: 30px;
         text-align: center;
-        background-color: #f3f3f3;;
+        background-color: #f3f3f3;
+    }
+
+    .out {
+        width: 100px;
+        height: 100px;
+        outline: 2px solid #000;
+    }
+
+    .first {
+        width: 60%;
+        margin: 0 20% 0 20%;
+    }
+
+    .first_one {
+        width: 30%;
+        margin-right: auto;
     }
 
     .ten {
         box-shadow: inset 0px -2px 4px 0px #ccc;
     }
+
+    .left {
+        box-shadow: inset 0px -2px 4px 0px #ccc;
+        left: 10%;
+    }
+
+    .right {
+        width: 30%;
+        margin-left: auto;
+    }
 </style>
+
+
+<!--<div class="first">
+    <form method="post">
+        <h3>Конвертер</h3>
+        <div class="first_one">
+            <select class="ten" name="valuteFrom">
+                <option th:each="valute : ${valutes}"
+                        th:value="${valute.getCharCode()}"
+                        th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+                </option>
+            </select>
+            <input type="text" name="quantity">
+        </div>
+
+        <div class="right">
+            <select class="ten" name="valuteTo">
+                <option th:each="valute : ${valutes}"
+                        th:value="${valute.getCharCode()}"
+                        th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+                </option>
+            </select>
+            <p style="border: 5px black; padding: 10px"><output class="out" th:text="${result}">adasdf</output></p>
+        </div>
+        <p>
+            <button class="ten" type="submit">Конвертировать</button>
+        </p>
+    </form>
+</div>!-->

@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface ValuteRepo extends CrudRepository<Valute, Long> {
     List<Valute> findByDate(String date);
-    Valute findByCharCode(String charCode);
+    Valute findByCharCodeAndDate(String charCode, String Date);
 }
