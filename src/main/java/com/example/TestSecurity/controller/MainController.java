@@ -1,7 +1,9 @@
 package com.example.TestSecurity.controller;
 
 import com.example.TestSecurity.converter.Choice;
+import com.example.TestSecurity.model.History;
 import com.example.TestSecurity.model.Valute;
+import com.example.TestSecurity.repos.HistoryRepo;
 import com.example.TestSecurity.repos.ValuteRepo;
 import com.example.TestSecurity.service.XMLService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class MainController {
 
     @Autowired
     private ValuteRepo valuteRepo;
+    @Autowired
+    private HistoryRepo historyRepo;
 
     @GetMapping()
     public String viewValute(Model model) {
@@ -41,8 +45,9 @@ public class MainController {
             valuteRepo.saveAll(valutes);
         }
         Collections.sort(valutes, Comparator.comparing(Valute::getName));
+        Iterable<History> histories = historyRepo.findAll();
         model.addAttribute("valutes", valutes);
-
+        model.addAttribute("histories", histories);
         return "choiceValute";
     }
 
@@ -59,10 +64,18 @@ public class MainController {
         Valute valuteToDb = valuteRepo.findByCharCodeAndDate(valuteTo, date);
         System.out.println(quantity);
         Double result = Choice.converted(valuteFromDb, valuteToDb, quantity);
-
         Collections.sort(valutes, Comparator.comparing(Valute::getName));
         model.addAttribute("valutes", valutes);
         model.addAttribute("result", result);
+        model.addAttribute("quantity", quantity);
+
+        History history =  new History(valuteFrom, valuteTo, quantity, result, date);
+        historyRepo.save(history);
+
+        Iterable<History> histories = historyRepo.findAll();
+        model.addAttribute("histories", histories);
+
+
 
         return "choiceValute";
     }

@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td width="25%">
-                    <input type="text" name="quantity">
+                    <input type="text" name="quantity" th:value="${quantity}">
                 </td>
                 <td width="25%" bordercolor="#000">
                     <output th:text="${result}"></output>
@@ -41,6 +41,24 @@
             <button class="ten" type="submit">Конвертировать</button>
         </p>
     </form>
+</div>
+<div>
+    <table width="60%" cellspacing="0" align="center" border="1">
+        <tr>
+            <td>Исходная валюта</td>
+            <td>Целевая валюта</td>
+            <td>Исходная сумма</td>
+            <td>Получаемая сумма</td>
+            <td>Дата</td>
+        </tr>
+        <tr th:each="history : ${histories}">
+            <td th:text="${history.getValuteFrom()}"></td>
+            <td th:text="${history.getValuteTo()}"></td>
+            <td th:text="${history.getQuantity()}"></td>
+            <td th:text="${history.getResult()}"></td>
+            <td th:text="${history.getDate()}"></td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>
