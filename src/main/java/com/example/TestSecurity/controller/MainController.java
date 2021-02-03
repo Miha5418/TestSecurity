@@ -55,28 +55,48 @@ public class MainController {
     public String choiceValute(@RequestParam String valuteFrom,
                                @RequestParam String valuteTo,
                                @RequestParam Integer quantity,
-                               Model model){
+                               Model model) {
         List<Valute> valutes;
+
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
         valutes = valuteRepo.findByDate(date);
 
         Valute valuteFromDb = valuteRepo.findByCharCodeAndDate(valuteFrom, date);
         Valute valuteToDb = valuteRepo.findByCharCodeAndDate(valuteTo, date);
-        System.out.println(quantity);
+
         Double result = Choice.converted(valuteFromDb, valuteToDb, quantity);
         Collections.sort(valutes, Comparator.comparing(Valute::getName));
+
         model.addAttribute("valutes", valutes);
         model.addAttribute("result", result);
         model.addAttribute("quantity", quantity);
 
-        History history =  new History(valuteFrom, valuteTo, quantity, result, date);
+        History history = new History(valuteFrom + " (" + valuteFromDb.getName() + ")",
+                valuteTo + " (" + valuteToDb.getName() + ")", quantity, result, date);
         historyRepo.save(history);
 
         Iterable<History> histories = historyRepo.findAll();
         model.addAttribute("histories", histories);
 
+        return "choiceValute";
+    }
+
+    @GetMapping("/choiceValute")
+    public String viewValuteFilter(@RequestParam String filterDate,
+                                   @RequestParam String filterValuteFrom,
+                                   @RequestParam String filterValuteTo,
+                                   Model model) {
+        List<Valute> valutes;
+
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        valutes = valuteRepo.findByDate(date);
+        Collections.sort(valutes, Comparator.comparing(Valute::getName));
+        model.addAttribute("valutes", valutes);
 
 
+        Iterable<History> histories = historyRepo.findAll();
+
+        model.addAttribute("histories", histories);
         return "choiceValute";
     }
 

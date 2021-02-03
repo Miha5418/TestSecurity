@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div class="first">
-    <form method="post">
+    <form method="post" onsubmit="submitForm()">
         <h3>Конвертер</h3>
-        <table width="60%" cellspacing="20" align="center"
-               bordercolor="#000" border="0">
+        <table width="60%" cellspacing="20" align="center">
             <tr>
                 <td width="25%">
-                    <select class="ten" name="valuteFrom">
+                    <select class="ten" name="valuteFrom" id="valFrom">
+                        <option selected disabled></option>
                         <option th:each="valute : ${valutes}"
                                 th:value="${valute.getCharCode()}"
-                                th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+                                th:text="${valute.getCharCode() + ' (' + valute.getName() + ')'}">
                         </option>
                     </select>
                 </td>
                 <td width="25%">
-                    <select class="ten" name="valuteTo">
+                    <select class="ten" name="valuteTo" id="valTo">
+                        <option selected disabled></option>
                         <option th:each="valute : ${valutes}"
                                 th:value="${valute.getCharCode()}"
-                                th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
+                                th:text="${valute.getCharCode() + ' (' + valute.getName() + ')'}">
                         </option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td width="25%">
-                    <input type="text" name="quantity" th:value="${quantity}">
+                    <input required type="text" name="quantity" th:value="${quantity}">
                 </td>
-                <td class="out2" bgcolor="#FFFFFF" bordercolor="#000">
+                <td class="out2" bgcolor="#FFFFFF">
                     <output th:text="${result}"></output>
                 </td>
             </tr>
@@ -43,25 +45,83 @@
     </form>
 </div>
 <div>
-    <table width="80%" cellspacing="0" align="center" border="1">
-        <tr>
-            <td>Исходная валюта</td>
-            <td>Целевая валюта</td>
-            <td>Исходная сумма</td>
-            <td>Получаемая сумма</td>
-            <td>Дата</td>
-        </tr>
-        <tr th:each="history : ${histories}">
-            <td th:text="${history.getValuteFrom()}"></td>
-            <td th:text="${history.getValuteTo()}"></td>
-            <td th:text="${history.getQuantity()}"></td>
-            <td th:text="${history.getResult()}"></td>
-            <td th:text="${history.getDate()}"></td>
-        </tr>
-    </table>
+    <form method="get" action="/choiceValute">
+        <table width="80%" cellspacing="0" align="center">
+            <tr>
+                <td width="26%">
+                    <input type="date" name="filterDate" id="filterDate">
+                </td>
+                <td width="26%">
+                    <select class="ten" name="filterValuteFrom" id="filterValuteFrom">
+                        <option selected></option>
+                        <option th:each="valute : ${valutes}"
+                                th:value="${valute.getCharCode() + ' (' + valute.getName() + ')'}"
+                                th:text="${valute.getCharCode()}">
+                        </option>
+                    </select>
+                </td>
+                <td width="26%">
+                    <select class="ten" name="filterValuteTo" id="filterValuteTo">
+                        <option selected></option>
+                        <option th:each="valute : ${valutes}"
+                                th:value="${valute.getCharCode() + ' (' + valute.getName() + ')'}"
+                                th:text="${valute.getCharCode()}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td height="20px">
+                </td>
+            </tr>
+            <tr>
+                <td class="out2">Исходная валюта</td>
+                <td class="out2">Целевая валюта</td>
+                <td class="out2">Исходная сумма</td>
+                <td class="out2">Получаемая сумма</td>
+                <td class="out2">Дата</td>
+            </tr>
+            <tr th:each="history : ${histories}">
+                <td class="out2" th:text="${history.getValuteFrom()}"></td>
+                <td class="out2" th:text="${history.getValuteTo()}"></td>
+                <td class="out2" th:text="${history.getQuantity()}"></td>
+                <td class="out2" th:text="${history.getResult()}"></td>
+                <td class="out2" th:text="${history.getDate()}"></td>
+            </tr>
+        </table>
+        <p>
+            <button class="ten" type="submit">Поиск</button>
+        </p>
+    </form>
 </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var valfrom = localStorage.getItem('valFrom');
+        var selectValfrom = document.getElementById("valFrom");
+        selectValfrom.value = valfrom;
+
+        var valto = localStorage.getItem('valTo');
+        var selectValto = document.getElementById("valTo");
+        selectValto.value = valto;
+
+    });
+
+    function submitForm() {
+        var selectValfrom = document.getElementById("valFrom");
+        var valuefrom = selectValfrom.options[selectValfrom.selectedIndex].value;
+        localStorage.setItem('valFrom', valuefrom);
+
+        var selectValto = document.getElementById("valTo");
+        var valueto = selectValto.options[selectValto.selectedIndex].value;
+        localStorage.setItem('valTo', valueto);
+    }
+
+
+</script>
+
 
 <style>
     body {
@@ -77,11 +137,6 @@
     .first {
         width: 60%;
         margin: 0 20% 0 20%;
-    }
-
-    .first_one {
-        width: 30%;
-        margin-right: auto;
     }
 
     .ten {
