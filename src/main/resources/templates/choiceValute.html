@@ -32,7 +32,7 @@
                 <td width="25%">
                     <input type="text" name="quantity" th:value="${quantity}">
                 </td>
-                <td width="25%" bordercolor="#000">
+                <td class="out2" bgcolor="#FFFFFF" bordercolor="#000">
                     <output th:text="${result}"></output>
                 </td>
             </tr>
@@ -43,7 +43,7 @@
     </form>
 </div>
 <div>
-    <table width="60%" cellspacing="0" align="center" border="1">
+    <table width="80%" cellspacing="0" align="center" border="1">
         <tr>
             <td>Исходная валюта</td>
             <td>Целевая валюта</td>
@@ -70,10 +70,8 @@
         background-color: #f3f3f3;
     }
 
-    .out {
-        width: 100px;
-        height: 100px;
-        outline: 2px solid #000;
+    .out2 {
+        border: 1px solid #767676
     }
 
     .first {
@@ -90,42 +88,4 @@
         box-shadow: inset 0px -2px 4px 0px #ccc;
     }
 
-    .left {
-        box-shadow: inset 0px -2px 4px 0px #ccc;
-        left: 10%;
-    }
-
-    .right {
-        width: 30%;
-        margin-left: auto;
-    }
 </style>
-
-
-<!--<div class="first">
-    <form method="post">
-        <h3>Конвертер</h3>
-        <div class="first_one">
-            <select class="ten" name="valuteFrom">
-                <option th:each="valute : ${valutes}"
-                        th:value="${valute.getCharCode()}"
-                        th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
-                </option>
-            </select>
-            <input type="text" name="quantity">
-        </div>
-
-        <div class="right">
-            <select class="ten" name="valuteTo">
-                <option th:each="valute : ${valutes}"
-                        th:value="${valute.getCharCode()}"
-                        th:text="${valute.getCharCode() + '(' + valute.getName() + ')'}">
-                </option>
-            </select>
-            <p style="border: 5px black; padding: 10px"><output class="out" th:text="${result}">adasdf</output></p>
-        </div>
-        <p>
-            <button class="ten" type="submit">Конвертировать</button>
-        </p>
-    </form>
-</div>!-->
