@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,7 +26,6 @@ import java.util.List;
  * @Date 25.01.2021
  */
 @Controller
-@RequestMapping("/converter")
 public class MainController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class MainController {
     @Autowired
     private HistoryRepo historyRepo;
 
-    @GetMapping()
+    @GetMapping
     public String viewValute(Model model) {
         List<Valute> valutes;
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
@@ -51,7 +51,7 @@ public class MainController {
         return "choiceValute";
     }
 
-    @PostMapping
+    @PostMapping("/convert")
     public String choiceValute(@RequestParam String valuteFrom,
                                @RequestParam String valuteTo,
                                @RequestParam Integer quantity,
@@ -81,20 +81,29 @@ public class MainController {
         return "choiceValute";
     }
 
-    @GetMapping("/choiceValute")
-    public String viewValuteFilter(@RequestParam String filterDate,
+    @PostMapping("/filter")
+    public String viewValuteFilter(@RequestParam(defaultValue = "") String filterDate,
                                    @RequestParam String filterValuteFrom,
                                    @RequestParam String filterValuteTo,
-                                   Model model) {
+                                   Model model) throws ParseException {
         List<Valute> valutes;
+        Iterable<History> histories;
 
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        String filterdate = new SimpleDateFormat("dd/MM/yyyy")
+                .format(new SimpleDateFormat("yyyy-MM-dd").parse(filterDate));
+
         valutes = valuteRepo.findByDate(date);
         Collections.sort(valutes, Comparator.comparing(Valute::getName));
         model.addAttribute("valutes", valutes);
 
 
-        Iterable<History> histories = historyRepo.findAll();
+        if (!filterdate.isEmpty() || !filterValuteFrom.isEmpty() || !filterValuteTo.isEmpty()){
+            histories = historyRepo.findByValuteFromLikeAndValuteToLikeAndDateLike(filterValuteFrom + "%", filterValuteTo + "%", filterdate + "%");
+        }
+        else {
+            histories = historyRepo.findAll();
+        }
 
         model.addAttribute("histories", histories);
         return "choiceValute";

@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface HistoryRepo extends CrudRepository<History, Long> {
-    List<History> findByValuteFromAndValuteToAndDate(String valuteFrom, String valuteTo, String date);
+
+    List<History> findByValuteFromLikeAndValuteToLikeAndDateLike(String valuteFrom, String valuteTo, String date);
 }

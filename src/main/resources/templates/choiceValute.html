@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="first">
-    <form method="post" onsubmit="submitForm()">
+    <form method="post" action="/convert" onsubmit="submitForm()">
         <h3>Конвертер</h3>
         <table width="60%" cellspacing="20" align="center">
             <tr>
@@ -45,11 +45,11 @@
     </form>
 </div>
 <div>
-    <form method="get" action="/choiceValute">
+    <form method="post" action="/filter">
         <table width="80%" cellspacing="0" align="center">
             <tr>
                 <td width="26%">
-                    <input type="date" name="filterDate" id="filterDate">
+                    <input type="date" name="filterDate" id="filterDate" value="">
                 </td>
                 <td width="26%">
                     <select class="ten" name="filterValuteFrom" id="filterValuteFrom">
