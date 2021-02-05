@@ -8,7 +8,7 @@
 <body>
 <div class="first">
     <form method="post" action="/convert" onsubmit="submitForm()">
-        <h3>Конвертер</h3>
+        <h2>Конвертер</h2>
         <table width="60%" cellspacing="20" align="center">
             <tr>
                 <td width="25%">
@@ -31,11 +31,11 @@
                 </td>
             </tr>
             <tr>
-                <td width="25%">
+                <td>
                     <input required type="text" name="quantity" th:value="${quantity}">
                 </td>
-                <td class="out2" bgcolor="#FFFFFF">
-                    <output th:text="${result}"></output>
+                <td>
+                    <input th:value="${result}">
                 </td>
             </tr>
         </table>
@@ -46,10 +46,11 @@
 </div>
 <div>
     <form method="post" action="/filter">
+        <h2>История</h2>
         <table width="80%" cellspacing="0" align="center">
             <tr>
                 <td width="26%">
-                    <input type="date" name="filterDate" id="filterDate" value="">
+                    <input type="date" name="filterDate" id="filterDate">
                 </td>
                 <td width="26%">
                     <select class="ten" name="filterValuteFrom" id="filterValuteFrom">

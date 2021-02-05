@@ -82,16 +82,21 @@ public class MainController {
     }
 
     @PostMapping("/filter")
-    public String viewValuteFilter(@RequestParam(defaultValue = "") String filterDate,
+    public String viewValuteFilter(@RequestParam String filterDate,
                                    @RequestParam String filterValuteFrom,
                                    @RequestParam String filterValuteTo,
                                    Model model) throws ParseException {
         List<Valute> valutes;
         Iterable<History> histories;
+        String filterdate;
 
         String date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-        String filterdate = new SimpleDateFormat("dd/MM/yyyy")
-                .format(new SimpleDateFormat("yyyy-MM-dd").parse(filterDate));
+        if (!filterDate.isEmpty()) {
+            filterdate = new SimpleDateFormat("dd/MM/yyyy")
+                    .format(new SimpleDateFormat("yyyy-MM-dd").parse(filterDate));
+        }
+        else
+            filterdate = filterDate;
 
         valutes = valuteRepo.findByDate(date);
         Collections.sort(valutes, Comparator.comparing(Valute::getName));
